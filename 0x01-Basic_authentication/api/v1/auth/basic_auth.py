@@ -4,4 +4,5 @@ from .auth import Auth
 
 
 class BasicAuth(Auth):
+    """Basic Auth BluePrint"""
     pass
