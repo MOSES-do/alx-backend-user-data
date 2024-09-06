@@ -20,7 +20,7 @@ def status_unauthorized() -> None:
     Return:
       - Error Unauthorized
     """
-    abort (401)
+    abort(401)
 
 
 @app_views.route('/stats/', strict_slashes=False)
