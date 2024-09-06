@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
+"""Create authentication flow"""
 
 from flask import request
 from typing import List, TypeVar
 
-"""Create authentication flow"""
 
 
 class Auth:
