@@ -56,7 +56,7 @@ class Base():
             else:
                 result[key] = value
         return result
-    
+
     def save(self):
         """ Save current object
             step 1 - whilst saving to file
@@ -65,7 +65,7 @@ class Base():
         self.updated_at = datetime.utcnow()
         DATA[s_class][self.id] = self
         self.__class__.save_to_file()
-    
+
     @classmethod
     def save_to_file(cls):
         """ Save all objects to file
@@ -97,7 +97,6 @@ class Base():
             objs_json = json.load(f)
             for obj_id, obj_json in objs_json.items():
                 DATA[s_class][obj_id] = cls(**obj_json)
-
 
     def remove(self):
         """ Remove object
@@ -132,6 +131,7 @@ class Base():
         """ Search all objects with matching attributes
         """
         s_class = cls.__name__
+
         def _search(obj):
             if len(attributes) == 0:
                 return True
@@ -139,5 +139,4 @@ class Base():
                 if (getattr(obj, k) != v):
                     return False
             return True
-        
         return list(filter(_search, DATA[s_class].values()))
