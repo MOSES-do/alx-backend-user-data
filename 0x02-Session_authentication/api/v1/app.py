@@ -55,13 +55,15 @@ def userAuthetication():
             '/api/v1/status/',
             '/api/v1/unauthorized/',
             '/api/v1/forbidden/',
+            '/api/v1/auth_session/login/',
         ]
         if auth.require_auth(request.path, excluded_paths):
             """returns true becos request path not in excluded path"""
             auth_header = auth.authorization_header(request)
+            auth_sess_cookie = auth.session_cookie(request)
             user = auth.current_user(request)
             request.current_user = user
-            if auth_header is None:
+            if auth_header is None and auth_sess_cookie is None:
                 abort(401)
             if user is None:
                 abort(403)
