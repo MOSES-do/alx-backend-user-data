@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Create authentication flow"""
 
+import os
 import re
 from flask import request
 from typing import List, TypeVar
@@ -29,5 +30,16 @@ class Auth:
             return request.headers.get('Authorization', None)
         return None
 
-    """def current_user(self, request=None) -> TypeVar('User'):
-        return None"""
+    def current_user(self, request=None) -> TypeVar('User'):
+        """Current user"""
+        return None
+
+    def session_cookie(self, request=None):
+        """
+        method is needed when session begins
+        return a cookie value from a request
+        | Session cookie
+        """
+        if request is not None:
+            cookie_name = os.getenv('SESSION_NAME')
+            return request.cookies.get(cookie_name)
