@@ -11,6 +11,7 @@ from flask_cors import (CORS, cross_origin)
 from api.v1.auth.auth import Auth
 from api.v1.auth.basic_auth import BasicAuth
 from api.v1.auth.session_auth import SessionAuth
+from api.v1.auth.session_exp_auth import SessionExpAuth
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
@@ -23,6 +24,8 @@ if auth_type == 'basic_auth':
     auth = BasicAuth()
 if auth_type == 'session_auth':
     auth = SessionAuth()
+if auth_type == 'session_exp_auth':
+    auth = SessionExpAuth()
 
 
 @app.errorhandler(404)
@@ -55,18 +58,18 @@ def userAuthetication():
             '/api/v1/status/',
             '/api/v1/unauthorized/',
             '/api/v1/forbidden/',
-            '/api/v1/auth_session/login/',
+            '/api/v1/auth_session/login',
         ]
         if auth.require_auth(request.path, excluded_paths):
             """returns true becos request path not in excluded path"""
             auth_header = auth.authorization_header(request)
             auth_sess_cookie = auth.session_cookie(request)
             user = auth.current_user(request)
-            request.current_user = user
             if auth_header is None and auth_sess_cookie is None:
                 abort(401)
             if user is None:
                 abort(403)
+            request.current_user = user
 
 
 if __name__ == "__main__":
