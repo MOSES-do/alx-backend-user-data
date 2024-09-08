@@ -3,6 +3,7 @@
 
 import uuid
 from .auth import Auth
+from models.user import User
 
 
 class SessionAuth(Auth):
@@ -25,3 +26,9 @@ class SessionAuth(Auth):
                 user_id = self.user_id_by_session_id.get(session_id, None)
                 return user_id
         return None
+
+    def current_user(self, request=None):
+        """Retrieves the user associated with the request.
+        """
+        user_id = self.user_id_for_session_id(self.session_cookie(request))
+        return User.get(user_id)
